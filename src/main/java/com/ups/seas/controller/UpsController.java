@@ -28,10 +28,10 @@ public class UpsController {
 
 
     @GetMapping("/getByEmployeeId")
-    public ResponseEntity<Employees> getEmployeeDetails(@RequestParam(name = "employeeId") String employeeId) throws IOException, ExecutionException, InterruptedException {
+    public ResponseEntity<Employees> getEmployeeDetails(@RequestParam(name = "employeeId") String employeeId) throws Exception {
         log.info("[UpsController][getEmployeeDetails] is called, employeeId: {} ", employeeId);
 
-        InputStream serviceAccount = new FileInputStream("./serviceAccount.json");
+        InputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccount.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
@@ -43,7 +43,7 @@ public class UpsController {
         ApiFuture<DocumentSnapshot> future = documentReference.get();
         DocumentSnapshot documentSnapshot = future.get();
         log.info("inside the FirebaseService method getEmployeeDetails() document : {}", documentSnapshot.exists());
-
+        db.close();
         Employees employee = null;
         if (documentSnapshot.exists()) {
             log.info("inside the FirebaseService came inside if");
