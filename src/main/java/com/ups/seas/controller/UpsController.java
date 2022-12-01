@@ -31,7 +31,7 @@ public class UpsController {
     public ResponseEntity<Employees> getEmployeeDetails(@RequestParam(name = "employeeId") String employeeId) throws Exception {
         log.info("[UpsController][getEmployeeDetails] is called, employeeId: {} ", employeeId);
 
-        InputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccount.json");
+        InputStream serviceAccount = new FileInputStream("config/serviceAccount.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
