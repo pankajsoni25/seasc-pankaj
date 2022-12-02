@@ -26,15 +26,17 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class UpsController {
 
+    public static final String PROJECT_ID = "sound-bit-369201";
 
     @GetMapping("/getByEmployeeId")
     public ResponseEntity<Employees> getEmployeeDetails(@RequestParam(name = "employeeId") String employeeId) throws Exception {
         log.info("[UpsController][getEmployeeDetails] is called, employeeId: {} ", employeeId);
 
-        InputStream serviceAccount = new FileInputStream("config/serviceAccount.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+//        InputStream serviceAccount = new FileInputStream("config/serviceAccount.json");
+//        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(credentials)
+                .setProjectId(PROJECT_ID)
+                .setCredentials(GoogleCredentials.getApplicationDefault())
                 .build();
         FirebaseApp.initializeApp(options);
         Firestore db = FirestoreClient.getFirestore();
